@@ -93,4 +93,25 @@ public class SocioService {
     public Socio obtenerPorId(int idSocio) {
         return socioDAO.buscarPorId(idSocio);
     }
+    
+    public Socio obtenerPorDocumento (String documento){
+        if (documento == null || documento.trim().isEmpty()) {
+            return null;
+        }
+        
+        return socioDAO.buscarPorDocumento(documento);
+    }
+    
+    public boolean inactivarSocio(int idSocio){
+        
+        return socioDAO.inactivar(idSocio);
+    }
+    
+    public List<Socio> buscarSocios(String busqueda){
+        if (busqueda == null || busqueda.trim().isEmpty()) {
+            return socioDAO.listarTodos();
+        }
+        
+        return socioDAO.buscarPorCriterio(busqueda.trim());
+    }
 }

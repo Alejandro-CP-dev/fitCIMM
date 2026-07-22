@@ -1,1 +1,10 @@
+com\fitcimm\model\Ingreso.class
+com\proyect\fitcimm\resources\JakartaEE11Resource.class
+com\fitcimm\model\Plan.class
+com\fitcimm\model\Socio.class
 com\fitcimm\model\Membresia.class
+com\fitcimm\config\Conexion.class
+com\fitcimm\dao\SocioDAO.class
+com\fitcimm\service\SocioService.class
+com\fitcimm\controller\SocioServlet.class
+com\proyect\fitcimm\JakartaRestConfiguration.class
