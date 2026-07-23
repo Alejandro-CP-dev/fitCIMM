@@ -5,6 +5,7 @@
 package com.fitcimm.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 /**
  *
  * @author Usuario
@@ -14,8 +15,8 @@ public class Membresia {
     private int idMembresia;
     private Socio socio; 
     private Plan plan;   
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private double valorPagado;
 
     public Membresia() {
@@ -46,19 +47,19 @@ public class Membresia {
         this.plan = plan;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
