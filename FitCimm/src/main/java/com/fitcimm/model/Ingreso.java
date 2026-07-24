@@ -4,31 +4,54 @@
  */
 package com.fitcimm.model;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
  * @author Usuario
  */
 public class Ingreso {
+
     private int idIngreso;
     private Socio socio;
-    private Date fechaIngreso;
-    private Date horaIngreso;
+    private LocalDate fechaIngreso;
+    private LocalTime horaIngreso;
 
     public Ingreso() {
     }
 
     // Getters y Setters
-    public int getIdIngreso() { return idIngreso; }
-    public void setIdIngreso(int idIngreso) { this.idIngreso = idIngreso; }
+    public int getIdIngreso() {
+        return idIngreso;
+    }
 
-    public Socio getSocio() { return socio; }
-    public void setSocio(Socio socio) { this.socio = socio; }
+    public void setIdIngreso(int idIngreso) {
+        this.idIngreso = idIngreso;
+    }
 
-    public Date getFechaIngreso() { return fechaIngreso; }
-    public void setFechaIngreso(Date fechaIngreso) { this.fechaIngreso = fechaIngreso; }
+    public Socio getSocio() {
+        return socio;
+    }
 
-    public Date getHoraIngreso() { return horaIngreso; }
-    public void setHoraIngreso(Date horaIngreso) { this.horaIngreso = horaIngreso; }
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
+
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public LocalTime getHoraIngreso() {
+        return horaIngreso;
+    }
+
+    public void setHoraIngreso(LocalTime horaIngreso) {
+        this.horaIngreso = horaIngreso;
+    }
 }

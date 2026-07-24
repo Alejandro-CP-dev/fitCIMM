@@ -31,12 +31,12 @@ public class MembresiaDAO {
 
             ps.setInt(1, membresia.getSocio().getIdSocio());
             ps.setInt(2, membresia.getPlan().getIdPlan());
-            ps.setDate(3, Date.valueOf(membresia.getFechaFin()));
+            ps.setDate(3, Date.valueOf(membresia.getFechaInicio()));
             ps.setDate(4, Date.valueOf(membresia.getFechaFin()));
             ps.setDouble(5, membresia.getValorPagado());
 
             return ps.executeUpdate() > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -121,8 +121,17 @@ public class MembresiaDAO {
         p.setDuracionDias(rs.getInt("duracion_dias"));
         m.setPlan(p);
 
-        m.setFechaInicio(rs.getDate("fecha_inicio").toLocalDate());
-        m.setFechaFin(rs.getDate("fecha_fin").toLocalDate());
+        // Validar si la fecha de inicio no es nula en la BD
+        Date fInicio = rs.getDate("fecha_inicio");
+        if (fInicio != null) {
+            m.setFechaInicio(fInicio.toLocalDate());
+        }
+
+        // Validar si la fecha de fin no es nula en la BD
+        Date fFin = rs.getDate("fecha_fin");
+        if (fFin != null) {
+            m.setFechaFin(fFin.toLocalDate());
+        }
         m.setValorPagado(rs.getDouble("valor_pagado"));
 
         return m;
