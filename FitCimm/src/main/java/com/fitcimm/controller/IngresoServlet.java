@@ -1,6 +1,7 @@
 package com.fitcimm.controller;
 import com.fitcimm.model.Ingreso;
 import com.fitcimm.service.IngresoService;
+import com.fitcimm.service.IngresoService.ResultadoAcceso;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,8 +39,10 @@ public class IngresoServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String documento = request.getParameter("documento");
         try {
-            ingresoService.registrarAcceso(documento); // EVALÚA RN-06
-            request.setAttribute("mensajeExito", "✅ ACCESO PERMITIDO: Ingreso registrado exitosamente.");
+            ResultadoAcceso resultado = ingresoService.registrarAcceso(documento);
+            request.setAttribute("mensajeExito",
+                    "✅ ACCESO PERMITIDO: Bienvenido " + resultado.getNombreSocio()
+                    + ". Te quedan " + resultado.getDiasRestantes() + " día(s) de membresía.");
         } catch (Exception e) {
             request.setAttribute("mensajeError", "❌ " + e.getMessage());
         }

@@ -400,24 +400,37 @@
                                         <th>Documento</th>
                                         <th>Socio</th>
                                         <th>Fecha</th>
+                                        <th>Días restantes membresía</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <%
                                         if (ingresos != null && !ingresos.isEmpty()) {
                                             for (Ingreso ing : ingresos) {
+                                                Long dias = ing.getDiasRestantesMembresia();
                                     %>
                                     <tr>
                                         <td><span class="time-chip"><i class="bi bi-clock-fill"></i><%= ing.getHoraIngreso()%></span></td>
                                         <td class="fw-semibold"><%= ing.getSocio().getDocumento()%></td>
                                         <td><%= ing.getSocio().getNombres() + " " + ing.getSocio().getApellidos()%></td>
                                         <td class="text-muted"><%= ing.getFechaIngreso()%></td>
+                                        <td>
+                                            <% if (dias == null) { %>
+                                                <span class="badge bg-secondary">Sin membresía</span>
+                                            <% } else if (dias < 0) { %>
+                                                <span class="badge bg-danger">Vencida</span>
+                                            <% } else if (dias <= 5) { %>
+                                                <span class="badge bg-warning text-dark"><%= dias %> día(s)</span>
+                                            <% } else { %>
+                                                <span class="badge bg-success"><%= dias %> día(s)</span>
+                                            <% } %>
+                                        </td>
                                     </tr>
                                     <%      }
                                         } else {
                                     %>
                                     <tr>
-                                        <td colspan="4" class="text-center text-muted py-5">
+                                        <td colspan="5" class="text-center text-muted py-5">
                                             <i class="bi bi-inbox fs-2 d-block mb-2"></i>
                                             No hay ingresos registrados en esta fecha.
                                         </td>

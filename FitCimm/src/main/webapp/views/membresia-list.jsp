@@ -118,6 +118,26 @@
                 background: #fff;
             }
 
+            /* SEARCH BAR */
+            .search-box {
+                max-width: 380px;
+            }
+            .search-box .input-group-text {
+                border-right: none;
+                color: var(--fc-muted);
+            }
+            .search-box .form-control {
+                border-left: none;
+                border-radius: 0 10px 10px 0;
+            }
+            .search-box .input-group-text {
+                border-radius: 10px 0 0 10px;
+            }
+            .search-box .form-control:focus {
+                border-color: var(--fc-orange);
+                box-shadow: 0 0 0 .2rem rgba(255,122,26,.15);
+            }
+
             /* ALERTS */
             .alert {
                 border: none;
@@ -207,6 +227,10 @@
                 background: rgba(107,116,136,.12);
                 color: var(--fc-muted);
             }
+
+            #sinResultados {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -267,10 +291,18 @@
             </div>
             <% } %>
 
+            <div class="search-box mb-3">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="buscarMembresia" class="form-control"
+                           placeholder="Buscar por documento o apellido...">
+                </div>
+            </div>
+
             <div class="card table-card mb-4">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover mb-0" id="tablaMembresias">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -313,19 +345,24 @@
                                                 // Extracción segura del Socio
                                                 String nombreSocio = "Socio no disponible";
                                                 String docSocio = "";
+                                                String apellidosSocio = "";
                                                 if (m.getSocio() != null) {
                                                     String nombres = (m.getSocio().getNombres() != null) ? m.getSocio().getNombres() : "";
                                                     String apellidos = (m.getSocio().getApellidos() != null) ? m.getSocio().getApellidos() : "";
                                                     String doc = (m.getSocio().getDocumento() != null) ? m.getSocio().getDocumento() : "Sin Doc";
                                                     nombreSocio = nombres + " " + apellidos;
                                                     docSocio = doc;
+                                                    apellidosSocio = apellidos;
                                                 }
 
                                                 // Extracción segura del Plan
                                                 String nombrePlan = (m.getPlan() != null && m.getPlan().getNombre() != null)
                                                         ? m.getPlan().getNombre() : "Plan no asignado";
+
+                                                // Texto usado por el filtro de búsqueda (documento + apellidos, en minúsculas)
+                                                String textoBusqueda = (docSocio + " " + apellidosSocio).toLowerCase();
                                 %>
-                                <tr>
+                                <tr data-search="<%= textoBusqueda%>">
                                     <td class="text-muted">#<%= m.getIdMembresia()%></td>
                                     <td>
                                         <div class="socio-cell">
@@ -355,11 +392,33 @@
                                 <% }%>
                             </tbody>
                         </table>
+                        <div id="sinResultados" class="text-center text-muted py-5">
+                            <i class="bi bi-search fs-2 d-block mb-2"></i>
+                            No se encontraron membresías con ese documento o apellido.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('buscarMembresia').addEventListener('input', function (e) {
+                var texto = e.target.value.trim().toLowerCase();
+                var filas = document.querySelectorAll('#tablaMembresias tbody tr[data-search]');
+                var visibles = 0;
+
+                filas.forEach(function (fila) {
+                    var coincide = fila.getAttribute('data-search').indexOf(texto) !== -1;
+                    fila.style.display = coincide ? '' : 'none';
+                    if (coincide) {
+                        visibles++;
+                    }
+                });
+
+                document.getElementById('sinResultados').style.display =
+                        (visibles === 0 && filas.length > 0) ? 'block' : 'none';
+            });
+        </script>
     </body>
 </html>

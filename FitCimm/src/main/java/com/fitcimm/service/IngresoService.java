@@ -11,6 +11,7 @@ import com.fitcimm.model.Membresia;
 import com.fitcimm.model.Socio;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 /**
  *
@@ -29,9 +30,27 @@ public class IngresoService {
         this.membresiaDAO = new MembresiaDAO();
         this.membresiaService = new MembresiaService();
     }
+
+    /** Resultado de un ingreso exitoso: nombre del socio y días que le restan (RF-13). */
+    public static class ResultadoAcceso {
+        private final String nombreSocio;
+        private final long diasRestantes;
+
+        public ResultadoAcceso(String nombreSocio, long diasRestantes) {
+            this.nombreSocio = nombreSocio;
+            this.diasRestantes = diasRestantes;
+        }
+
+        public String getNombreSocio() {
+            return nombreSocio;
+        }
+
+        public long getDiasRestantes() {
+            return diasRestantes;
+        }
+    }
     
-    
-    public void registrarAcceso(String documento) throws Exception{
+    public ResultadoAcceso registrarAcceso(String documento) throws Exception{
         if (documento == null || documento.trim().isEmpty()) {
             throw new Exception("Debe ingresar un número de documento.");
         }
@@ -65,18 +84,44 @@ public class IngresoService {
         if (!exito) {
             throw new Exception("Error al registrar la entrada en la base de datos.");
         }
+
+        // 5. Calcular días restantes para devolverlos en el mensaje de bienvenida
+        long diasRestantes = ChronoUnit.DAYS.between(LocalDate.now(), ultimaMembresia.getFechaFin());
+        String nombreCompleto = socio.getNombres() + " " + socio.getApellidos();
+        return new ResultadoAcceso(nombreCompleto, diasRestantes);
     }
     
     public List<Ingreso> listarIngresosDelDia() {
-        return ingresoDAO.listarIngresoDia();
+        List<Ingreso> lista = ingresoDAO.listarIngresoDia();
+        completarDiasRestantes(lista);
+        return lista;
     }
 
     /** RF-14: ingresos de una fecha específica elegida en el calendario. */
     public List<Ingreso> listarPorFecha(LocalDate fecha) {
-        return ingresoDAO.listarIngresoPorFecha(fecha);
+        List<Ingreso> lista = ingresoDAO.listarIngresoPorFecha(fecha);
+        completarDiasRestantes(lista);
+        return lista;
     }
 
     public List<Ingreso> listarTodos() {
-        return ingresoDAO.listarTodos();
+        List<Ingreso> lista = ingresoDAO.listarTodos();
+        completarDiasRestantes(lista);
+        return lista;
+    }
+
+    /**
+     * Para cada ingreso, busca la última membresía del socio y calcula
+     * cuántos días le restan (puede ser negativo si ya venció).
+     * Si el socio nunca ha comprado un plan, queda en null.
+     */
+    private void completarDiasRestantes(List<Ingreso> lista) {
+        for (Ingreso ingreso : lista) {
+            Membresia ultima = membresiaDAO.obtenerUltimaMembresia(ingreso.getSocio().getIdSocio());
+            if (ultima != null) {
+                long dias = ChronoUnit.DAYS.between(LocalDate.now(), ultima.getFechaFin());
+                ingreso.setDiasRestantesMembresia(dias);
+            }
+        }
     }
 }
