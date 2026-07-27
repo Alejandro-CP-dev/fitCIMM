@@ -63,7 +63,7 @@ public class PlanDAO {
         return lista;
     }
 
-    public Plan bucarPorId(int idPlan) {
+    public Plan buscarPorId(int idPlan) {
         String sql = "SELECT * FROM plan WHERE id_plan = ?";
         Plan plan = null;
         try (Connection cn = Conexion.getConnection(); PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -118,8 +118,6 @@ public class PlanDAO {
         return plan;
     }
 
-    public Plan buscarPorId(int idPlan) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
 }

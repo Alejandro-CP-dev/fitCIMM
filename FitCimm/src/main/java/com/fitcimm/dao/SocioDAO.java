@@ -92,7 +92,7 @@ public class SocioDAO {
 
     public boolean actualizar(Socio socio) {
         String consulta = "UPDATE socio SET documento = ?, nombres = ?, apellidos = ?, "
-                + "telefono = ?, correo = ?, fecha_nacimiento = ?, WHERE id_socio = ?";
+                + "telefono = ?, correo = ?, fecha_nacimiento = ? WHERE id_socio = ?";
         try (Connection conn = Conexion.getConnection();
                 PreparedStatement ps = conn.prepareStatement(consulta)){
             
@@ -106,8 +106,8 @@ public class SocioDAO {
             
             return ps.executeUpdate() > 0;
             
-        } catch (Exception e) {
-            e.getStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

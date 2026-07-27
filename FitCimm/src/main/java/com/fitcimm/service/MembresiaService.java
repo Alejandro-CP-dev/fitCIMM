@@ -36,7 +36,7 @@ public class MembresiaService {
             throw new Exception("El socio seleccionado no existe o es encuentra inactivo");
         }
 
-        Plan plan = planDAO.bucarPorId(idPlan);
+        Plan plan = planDAO.buscarPorId(idPlan);
         if (plan == null || !plan.isActivo()) {
             throw new Exception("El plan seleccionado no existe o está inactivo");
         }

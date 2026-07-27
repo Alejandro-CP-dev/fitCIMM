@@ -48,12 +48,12 @@ public class IngresoService {
             throw new Exception("El socio se encuentra inactivo en el sistema.");
         }
 
-        // 2. Verificar duplicidad de ingreso en el mismo día (RN-06)
+        // 2. Verificar duplicidad de ingreso en el mismo día
         if (ingresoDAO.yaIngresoHoy(socio.getIdSocio())) {
             throw new Exception("El socio " + socio.getNombres() + " " + socio.getApellidos() + " ya registró su ingreso el día de hoy.");
         }
 
-        // 3. Verificar membresía (RN-06)
+        // 3. Verificar membresía 
         Membresia ultimaMembresia = membresiaDAO.obtenerUltimaMembresia(socio.getIdSocio());
         if (ultimaMembresia == null) {
             throw new Exception("ACCESO DENEGADO: El socio no cuenta con ninguna membresía adquirida.");
