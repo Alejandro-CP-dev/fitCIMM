@@ -127,6 +127,21 @@ public class SocioDAO {
         }
     }
 
+    public boolean activar(int idSocio) {
+        String sql = "UPDATE socio SET activo = true WHERE id_socio = ?";
+
+        try (Connection cn = Conexion.getConnection();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+
+            ps.setInt(1, idSocio);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Socio> buscarPorCriterio(String textoBusqueda) {
         List<Socio> lista = new ArrayList<>();
         String sql = "SELECT * FROM socio WHERE documento LIKE ? OR apellidos LIKE ?";

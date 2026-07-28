@@ -3,13 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.fitcimm.service;
-
 import com.fitcimm.dao.SocioDAO;
 import com.fitcimm.model.Socio;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-
 /**
  *
  * @author Usuario
@@ -32,14 +30,10 @@ public class SocioService {
         if (socio.getApellidos() == null || socio.getApellidos().trim().isEmpty()) {
             throw new Exception("El apellido es obligatorio.");
         }
-
-
         Socio existente = socioDAO.buscarPorDocumento(socio.getDocumento().trim());
         if (existente != null) {
             throw new Exception("RN-01: Ya existe un socio registrado con el documento " + socio.getDocumento());
         }
-
-
         if (socio.getFechaNacimiento() == null) {
             throw new Exception("La fecha de nacimiento es obligatoria.");
         }
@@ -48,11 +42,8 @@ public class SocioService {
         if (edad <= 15) { // Debe ser estrictamente mayor de 15 años (> 15)
             throw new Exception("RN-09: El socio debe ser mayor de 15 años para poder registrarse (Edad actual: " + edad + " años).");
         }
-
         // Por defecto, todo socio nuevo nace activo
         socio.setActivo(true);
-
-
         boolean exito = socioDAO.insertar(socio);
         if (!exito) {
             throw new Exception("Ocurrió un error en la base de datos al guardar el socio.");
@@ -74,12 +65,10 @@ public class SocioService {
                 throw new Exception("EL nuevo número de documento ya esta asignado a otro socio");
             }
         }
-
         long edad = ChronoUnit.YEARS.between(socio.getFechaNacimiento(), LocalDate.now());
         if (edad <= 15) {
             throw new Exception("El socio debe ser mayor de 15 años.");
         }
-
         boolean exito = socioDAO.actualizar(socio);
         if (!exito) {
             throw new Exception("Error al actualizar la información del socio.");
@@ -89,7 +78,6 @@ public class SocioService {
     public List<Socio> listarSocios() {
         return socioDAO.listarTodos();
     }
-
     public Socio obtenerPorId(int idSocio) {
         return socioDAO.buscarPorId(idSocio);
     }
@@ -105,6 +93,11 @@ public class SocioService {
     public boolean inactivarSocio(int idSocio){
         
         return socioDAO.inactivar(idSocio);
+    }
+
+    public boolean activarSocio(int idSocio){
+
+        return socioDAO.activar(idSocio);
     }
     
     public List<Socio> buscarSocios(String busqueda){

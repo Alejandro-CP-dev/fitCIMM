@@ -57,6 +57,14 @@ public class SocioServlet extends HttpServlet{
                     listarSocios(request, response);
                     break;
 
+                case "activar":
+                    // Reactivación de un socio previamente inactivado
+                    int idActivar = Integer.parseInt(request.getParameter("id"));
+                    socioService.activarSocio(idActivar);
+                    request.setAttribute("mensajeExito", "Socio activado correctamente.");
+                    listarSocios(request, response);
+                    break;
+
                 case "buscar":
                     // Buscar por documento o apellido (RF-06)
                     String criterio = request.getParameter("criterio");
