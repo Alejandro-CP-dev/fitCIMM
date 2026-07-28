@@ -4,6 +4,7 @@ com\fitcimm\model\Socio.class
 com\fitcimm\controller\MembresiaServlet.class
 com\fitcimm\service\IngresoService.class
 com\fitcimm\controller\IngresoServlet.class
+com\fitcimm\dao\ReporteDAO.class
 com\fitcimm\model\Plan.class
 com\fitcimm\service\PlanService.class
 com\fitcimm\controller\PlanServlet.class
@@ -12,6 +13,8 @@ com\fitcimm\config\Conexion.class
 com\fitcimm\dao\SocioDAO.class
 com\fitcimm\service\SocioService.class
 com\fitcimm\controller\SocioServlet.class
+com\fitcimm\service\IngresoService$ResultadoAcceso.class
+com\fitcimm\controller\ReporteServlet.class
 com\fitcimm\dao\MembresiaDAO.class
 com\fitcimm\dao\PlanDAO.class
 com\fitcimm\service\MembresiaService.class

@@ -240,5 +240,22 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <%
+            String msgExito = (String) request.getAttribute("mensajeExito");
+            if (msgExito != null && !msgExito.isEmpty()) {
+                String msgEscapado = msgExito.replace("\\", "\\\\").replace("'", "\\'");
+        %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Venta registrada!',
+                text: '<%= msgEscapado %>',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#ff7a1a'
+            });
+        </script>
+        <% } %>
     </body>
 </html>

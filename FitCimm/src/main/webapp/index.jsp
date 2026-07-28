@@ -18,6 +18,7 @@
                 --fc-mint: #0fbf8f;
                 --fc-blue: #2f6fed;
                 --fc-purple: #7c5cff;
+                --fc-red: #e63946;
                 --fc-bg: #f4f6fa;
                 --fc-text: #2a3242;
                 --fc-muted: #6b7488;
@@ -144,10 +145,26 @@
             .module-card:hover .icon-wrap {
                 transform: scale(1.08) rotate(-4deg);
             }
-            .icon-mint  { background: rgba(15,191,143,.12); color: var(--fc-mint); }
-            .icon-blue  { background: rgba(47,111,237,.12); color: var(--fc-blue); }
-            .icon-orange{ background: rgba(255,122,26,.12); color: var(--fc-orange); }
-            .icon-purple{ background: rgba(124,92,255,.12); color: var(--fc-purple); }
+            .icon-mint   {
+                background: rgba(15,191,143,.12);
+                color: var(--fc-mint);
+            }
+            .icon-blue   {
+                background: rgba(47,111,237,.12);
+                color: var(--fc-blue);
+            }
+            .icon-orange {
+                background: rgba(255,122,26,.12);
+                color: var(--fc-orange);
+            }
+            .icon-purple {
+                background: rgba(124,92,255,.12);
+                color: var(--fc-purple);
+            }
+            .icon-red    {
+                background: rgba(230,57,70,.12);
+                color: var(--fc-red);
+            }
 
             .module-card .card-title {
                 font-weight: 700;
@@ -167,27 +184,35 @@
                 color: #fff;
                 transition: opacity .2s ease;
             }
-            .btn-module:hover { opacity: .88; color: #fff; }
-            .btn-mint   { background: var(--fc-mint); }
-            .btn-blue   { background: var(--fc-blue); }
-            .btn-orange { background: var(--fc-orange); }
-            .btn-purple { background: var(--fc-purple); }
-
-            .section-label {
-                text-transform: uppercase;
-                font-size: .78rem;
-                font-weight: 700;
-                letter-spacing: 1.2px;
-                color: var(--fc-muted);
+            .btn-module:hover {
+                opacity: .88;
+                color: #fff;
+            }
+            .btn-mint   {
+                background: var(--fc-mint);
+            }
+            .btn-blue   {
+                background: var(--fc-blue);
+            }
+            .btn-orange {
+                background: var(--fc-orange);
+            }
+            .btn-purple {
+                background: var(--fc-purple);
+            }
+            .btn-red    {
+                background: var(--fc-red);
             }
 
             footer {
                 background: var(--fc-navy) !important;
             }
-            footer small { color: rgba(255,255,255,.6); }
+            footer small {
+                color: rgba(255,255,255,.6);
+            }
         </style>
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
 
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
@@ -214,6 +239,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="PlanServlet?accion=listar">Planes</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ReporteServlet?tipo=vigentes">Reportes</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -228,48 +256,53 @@
         </div>
 
         <div class="container mb-5" style="margin-top: -3.2rem;">
-            <div class="row g-4">
 
-                <div class="col-md-6 col-lg-3">
+            <div class="row g-4 justify-content-center mb-4">
+
+                <div class="col-md-6 col-lg-4">
                     <div class="card module-card h-100">
                         <div class="card-body text-center">
                             <div class="icon-wrap icon-mint">
                                 <i class="bi bi-door-open-fill"></i>
                             </div>
                             <h5 class="card-title">Control de Acceso</h5>
-                            <p class="card-text">Valida el ingreso diario de socios por número de documento.</p>
+                            <p class="card-text">Valida el ingreso diario de socios por número de documento en tiempo real.</p>
                             <a href="IngresoServlet" class="btn btn-module btn-mint w-100">Ir a Recepción</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="card module-card h-100">
                         <div class="card-body text-center">
                             <div class="icon-wrap icon-blue">
                                 <i class="bi bi-people-fill"></i>
                             </div>
                             <h5 class="card-title">Gestión de Socios</h5>
-                            <p class="card-text">Registro de nuevos clientes, edición y búsqueda con reglas de documento y edad.</p>
+                            <p class="card-text">Registro de nuevos clientes, edición y búsqueda con validaciones de edad y documento.</p>
                             <a href="SocioServlet?accion=listar" class="btn btn-module btn-blue w-100">Ver Socios</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <div class="card module-card h-100">
                         <div class="card-body text-center">
                             <div class="icon-wrap icon-orange">
                                 <i class="bi bi-credit-card-fill"></i>
                             </div>
                             <h5 class="card-title">Venta de Membresías</h5>
-                            <p class="card-text">Asignación de planes, cálculo automático de vencimientos y estados.</p>
+                            <p class="card-text">Asignación de planes, cálculo automático de vencimientos y renovación de suscripciones.</p>
                             <a href="MembresiaServlet?accion=listar" class="btn btn-module btn-orange w-100">Ver Membresías</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
+            </div>
+
+            <div class="row g-4 justify-content-center">
+
+                <div class="col-md-6 col-lg-4">
                     <div class="card module-card h-100">
                         <div class="card-body text-center">
                             <div class="icon-wrap icon-purple">
@@ -282,7 +315,21 @@
                     </div>
                 </div>
 
+                <div class="col-md-6 col-lg-4">
+                    <div class="card module-card h-100">
+                        <div class="card-body text-center">
+                            <div class="icon-wrap icon-red">
+                                <i class="bi bi-bar-chart-line-fill"></i>
+                            </div>
+                            <h5 class="card-title">Reportes y Métricas</h5>
+                            <p class="card-text">Consulta socios vigentes (RF-15), recaudo por fechas (RF-16) y el plan más vendido (RF-17).</p>
+                            <a href="ReporteServlet?tipo=vigentes" class="btn btn-module btn-red w-100">Ver Reportes</a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
 
         <footer class="text-white text-center py-3 mt-auto">

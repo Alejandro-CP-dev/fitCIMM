@@ -197,6 +197,31 @@
                 gap: .6rem;
             }
 
+            /* TOGGLE BUTTON */
+            .btn-toggle-hoy {
+                background: var(--fc-navy);
+                border: none;
+                color: #fff;
+                font-weight: 600;
+                border-radius: 12px;
+                padding: .8rem 1.4rem;
+                display: inline-flex;
+                align-items: center;
+                gap: .5rem;
+                transition: background .2s ease;
+            }
+            .btn-toggle-hoy:hover {
+                background: var(--fc-navy-2);
+                color: #fff;
+            }
+            .btn-toggle-hoy .badge-count {
+                background: var(--fc-mint);
+                color: #fff;
+                border-radius: 20px;
+                padding: .15rem .6rem;
+                font-size: .8rem;
+            }
+
             /* TABLE CARD */
             .table-card {
                 border: none;
@@ -335,46 +360,85 @@
                 </div>
             </div>
 
-            <div class="card table-card mb-4">
-                <div class="card-header">
+            <%
+                List<Ingreso> ingresos = (List<Ingreso>) request.getAttribute("listaIngresos");
+                int totalIngresosHoy = (ingresos != null) ? ingresos.size() : 0;
+                String fechaSeleccionada = (String) request.getAttribute("fechaSeleccionada");
+            %>
+
+            <div class="mb-4 d-flex align-items-center flex-wrap gap-3">
+                <button class="btn btn-toggle-hoy" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#panelIngresosHoy"
+                        aria-expanded="false" aria-controls="panelIngresosHoy">
                     <i class="bi bi-clock-history"></i>
-                    <h5>Socios que han ingresado el día de hoy</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Hora de Ingreso</th>
-                                    <th>Documento</th>
-                                    <th>Socio</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                    List<Ingreso> ingresos = (List<Ingreso>) request.getAttribute("listaIngresos");
-                                    if (ingresos != null && !ingresos.isEmpty()) {
-                                        for (Ingreso ing : ingresos) {
-                                %>
-                                <tr>
-                                    <td><span class="time-chip"><i class="bi bi-clock-fill"></i><%= ing.getHoraIngreso()%></span></td>
-                                    <td class="fw-semibold"><%= ing.getSocio().getDocumento()%></td>
-                                    <td><%= ing.getSocio().getNombres() + " " + ing.getSocio().getApellidos()%></td>
-                                    <td class="text-muted"><%= ing.getFechaIngreso()%></td>
-                                </tr>
-                                <%      }
-                                } else {
-                                %>
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted py-5">
-                                        <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                                        No hay ingresos registrados el día de hoy.
-                                    </td>
-                                </tr>
-                                <% }%>
-                            </tbody>
-                        </table>
+                    Socios que han ingresado
+                    <span class="badge-count"><%= totalIngresosHoy %></span>
+                </button>
+
+                <form method="get" action="IngresoServlet" class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0 fw-semibold" style="color: var(--fc-muted);">Ver por fecha:</label>
+                    <input type="date" name="fecha" class="form-control" style="max-width: 180px;"
+                           value="<%= fechaSeleccionada %>">
+                    <button type="submit" class="btn btn-fc-outline">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="collapse show" id="panelIngresosHoy">
+                <div class="card table-card mb-4">
+                    <div class="card-header">
+                        <i class="bi bi-clock-history"></i>
+                        <h5>Ingresos registrados el <%= fechaSeleccionada %></h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Hora de Ingreso</th>
+                                        <th>Documento</th>
+                                        <th>Socio</th>
+                                        <th>Fecha</th>
+                                        <th>Días restantes membresía</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        if (ingresos != null && !ingresos.isEmpty()) {
+                                            for (Ingreso ing : ingresos) {
+                                                Long dias = ing.getDiasRestantesMembresia();
+                                    %>
+                                    <tr>
+                                        <td><span class="time-chip"><i class="bi bi-clock-fill"></i><%= ing.getHoraIngreso()%></span></td>
+                                        <td class="fw-semibold"><%= ing.getSocio().getDocumento()%></td>
+                                        <td><%= ing.getSocio().getNombres() + " " + ing.getSocio().getApellidos()%></td>
+                                        <td class="text-muted"><%= ing.getFechaIngreso()%></td>
+                                        <td>
+                                            <% if (dias == null) { %>
+                                                <span class="badge bg-secondary">Sin membresía</span>
+                                            <% } else if (dias < 0) { %>
+                                                <span class="badge bg-danger">Vencida</span>
+                                            <% } else if (dias <= 5) { %>
+                                                <span class="badge bg-warning text-dark"><%= dias %> día(s)</span>
+                                            <% } else { %>
+                                                <span class="badge bg-success"><%= dias %> día(s)</span>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <%      }
+                                        } else {
+                                    %>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-5">
+                                            <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                            No hay ingresos registrados en esta fecha.
+                                        </td>
+                                    </tr>
+                                    <% }%>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
