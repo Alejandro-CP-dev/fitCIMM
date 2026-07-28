@@ -70,7 +70,7 @@
                 padding: .55rem 1.1rem;
                 transition: opacity .2s ease;
             }
-            .btn-fc-primary:hover { opacity: .88; color: #fff; }
+            .btn-fc-primary:hover {background: var(--fc-orange); opacity: .88; color: #fff; }
 
             /* ALERTS */
             .alert { border: none; border-radius: 12px; }

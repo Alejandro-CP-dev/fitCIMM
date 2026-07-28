@@ -186,7 +186,7 @@
             }
             .btn-module:hover {
                 opacity: .88;
-                color: #fff;
+                color: #000000;
             }
             .btn-mint   {
                 background: var(--fc-mint);
@@ -322,7 +322,7 @@
                                 <i class="bi bi-bar-chart-line-fill"></i>
                             </div>
                             <h5 class="card-title">Reportes y Métricas</h5>
-                            <p class="card-text">Consulta socios vigentes (RF-15), recaudo por fechas (RF-16) y el plan más vendido (RF-17).</p>
+                            <p class="card-text">Consulta socios vigentes , recaudo por fechas  y el plan más vendido .</p>
                             <a href="ReporteServlet?tipo=vigentes" class="btn btn-module btn-red w-100">Ver Reportes</a>
                         </div>
                     </div>

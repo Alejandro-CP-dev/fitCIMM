@@ -38,17 +38,17 @@
     <ul class="nav nav-tabs nav-fill mb-4" id="reportesTab" role="tablist">
         <li class="nav-item">
             <button class="nav-link <%= "vigentes".equals(tabActiva) ? "active" : "" %>" id="vigentes-tab" data-bs-toggle="tab" data-bs-target="#vigentes" type="button">
-                <i class="bi bi-people-fill"></i> Socios Vigentes (RF-15)
+                <i class="bi bi-people-fill"></i> Socios Vigentes 
             </button>
         </li>
         <li class="nav-item">
             <button class="nav-link <%= "recaudo".equals(tabActiva) ? "active" : "" %>" id="recaudo-tab" data-bs-toggle="tab" data-bs-target="#recaudo" type="button">
-                <i class="bi bi-cash-stack"></i> Recaudo por Fechas (RF-16)
+                <i class="bi bi-cash-stack"></i> Recaudo por Fechas 
             </button>
         </li>
         <li class="nav-item">
             <button class="nav-link <%= "top".equals(tabActiva) ? "active" : "" %>" id="top-tab" data-bs-toggle="tab" data-bs-target="#top" type="button">
-                <i class="bi bi-trophy-fill text-warning"></i> Plan Más Vendido (RF-17)
+                <i class="bi bi-trophy-fill text-warning"></i> Plan Más Vendido 
             </button>
         </li>
     </ul>

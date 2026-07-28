@@ -99,6 +99,7 @@
                 transition: opacity .2s ease;
             }
             .btn-fc-primary:hover {
+                background: var(--fc-orange);
                 opacity: .88;
                 color: #fff;
             }

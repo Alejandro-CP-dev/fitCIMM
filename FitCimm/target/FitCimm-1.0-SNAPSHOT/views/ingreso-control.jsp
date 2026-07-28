@@ -171,7 +171,7 @@
             }
             .btn-validate:hover {
                 opacity: .88;
-                color: #fff;
+                color: #000000;
             }
 
             .alert-scan-success {
