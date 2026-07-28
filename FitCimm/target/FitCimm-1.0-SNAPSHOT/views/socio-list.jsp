@@ -265,6 +265,11 @@
                                            onclick="return confirm('¿Inactivar a este socio?');">
                                             <i class="bi bi-slash-circle"></i> Inactivar
                                         </a>
+                                        <% } else { %>
+                                        <a href="SocioServlet?accion=activar&id=<%= s.getIdSocio()%>"
+                                           class="btn btn-action btn-edit">
+                                            <i class="bi bi-check-circle"></i> Activar
+                                        </a>
                                         <% } %>
                                     </td>
                                 </tr>
